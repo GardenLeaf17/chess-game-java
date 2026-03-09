@@ -1,8 +1,8 @@
 public class Main {
 
-    static int[][] initialiseBoard() {
+    static char[][] initialiseBoard() {
 
-        int[][] chessboardArray = new int[8][8];
+        char[][] chessboardArray = new char[8][8];
 
         // white pieces are in lowercase
         // black pieces are in uppercase
@@ -48,7 +48,7 @@ public class Main {
 
         }
 
-        // empty space
+        // adding empty spaces
         for (int file = 2; file < 6; file++) {
 
             for (int rank = 0; rank < 8; rank++) {
@@ -65,13 +65,38 @@ public class Main {
     }
 
 
-    static void printChessBoardToShell(int[][] chessboardArray) {
+    static void printChessBoardToShell(char[][] chessboardArray, int turn) {
+
+        if (turn == 1) {
+
+            // invert array for black's perspective
+            for (int file = 0; file < 8; file++) {
+
+                for (int rank = 0; rank < 4; rank++) {
+
+                    char tempVal = chessboardArray[file][rank];
+                    chessboardArray[file][rank] = chessboardArray[7-file][7-rank];
+                    chessboardArray[7-file][7-rank] = tempVal;
+
+                }
+
+            }
+
+        }
 
         System.out.print("\n   +---+---+---+---+---+---+---+---+");
 
         for (int file = 0; file < 8; file++) {
 
-            System.out.print("\n "+(8-file)+" |");
+            int index = 8 - file;
+
+            if (turn == 1) {
+
+                index = file + 1;
+
+            }
+
+            System.out.print("\n "+(index)+" |");
 
             for (int rank = 0; rank < 8; rank++) {
 
@@ -137,15 +162,23 @@ public class Main {
 
         }
 
-        System.out.print("\n     a   b   c   d   e   f   g   h");
+        if (turn == 1) {
+
+            System.out.print("\n     h   g   f   e   d   c   b   a");
+
+        } else {
+
+            System.out.print("\n     a   b   c   d   e   f   g   h");
+
+        }
 
     }
 
     static void main(String[] args) {
 
-        int[][] chessboard = initialiseBoard();
+        char[][] chessboard = initialiseBoard();
 
-        printChessBoardToShell(chessboard);
+        printChessBoardToShell(chessboard, 0);
 
     }
 }
